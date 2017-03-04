@@ -28,47 +28,49 @@ struct List {
     ListNode * head;
 };
 
-List * CI_stringToList(const char * str) {
+List * CI_stringToList(char str[][100], int size) {
     int i = 0;
     List * list = List_new();
     char buffer[5][30];
+    int strIndex = 0;
     int row = 0, col = 0;
-    for (i = 0; i <= strlen(str); i++) {
-        char ch = str[i];        
-        if ((ch == ';' || ch == '\0') && strlen(buffer[3]) != 0) {
-            List_addLast(list, Student_newFromString(buffer));
-            buffer[3][0] = '\0';
-            row = 0;
-            continue;
-        }
-        if (ch == ',') {
-            row++;
-            continue;
-        }
-        if (isspace(ch)) continue;
-        if (isalpha(ch) || isdigit(ch)) {
-            while (isalpha(str[i]) || isdigit(str[i]) || str[i] == '.') {
-                buffer[row][col] = str[i];
-                col++;
-                i++;
+    for (i = 0; i < size; i++) {
+        for (strIndex = 0; strIndex <= strlen(str[i]); strIndex++) {
+            char ch = str[i][strIndex];        
+            if (ch == '\0' && strlen(buffer[3]) != 0) {
+                List_addLast(list, Student_newFromString(buffer));
+                buffer[3][0] = '\0';
+                row = 0;
+                continue;
             }
-            buffer[row][col] = '\0';            
-            col = 0;
-            i--;            
+            if (ch == ',') {
+                row++;
+                continue;
+            }
+            if (isspace(ch)) continue;
+            if (isalpha(ch) || isdigit(ch)) {
+                while (isalpha(str[i][strIndex]) || isdigit(str[i][strIndex]) || str[i][strIndex] == '.') {
+                    buffer[row][col] = str[i][strIndex];
+                    col++;
+                    strIndex++;
+                }
+                buffer[row][col] = '\0';            
+                col = 0;
+                strIndex--;            
+            }
         }
     }
     return list;
 }
 
 
-char * CI_listToString(List * list, char * buffer) {
+char ** CI_listToString(List * list, char * buffer[]) {
     char str[100];
-    buffer[0] = '\0';
     int i = 0;
     for (i = 0; i < List_count(list); i++) {
+        buffer[i][0] = '\0';    
         Student_toString(List_get(List_elementAt(list, i)), str);
-        strcat(buffer, str);
-        strcat(buffer, "; ");
+        strcat(buffer[i],"\0");
     }
     return buffer; 
 }
@@ -333,8 +335,12 @@ struct ListNode * List_elementAt(List * self, int position) {
 }
 
 List * List_copy(List * toCopy) {
-    char buffer[200];
-    List * newList = CI_stringToList(CI_listToString(toCopy, buffer));
+    char buffer[List_count(toCopy)][100];
+    int i = 0;
+    for (i = 0; i < List_count(toCopy); i++) {
+        Student_toString(List_get(List_elementAt(toCopy, i)), buffer[i]);
+    }
+    List * newList = CI_stringToList(buffer, List_count(toCopy));
     return newList;
 }
 
