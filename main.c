@@ -15,7 +15,6 @@ START_TEST (stringToList_string_headOfList);
 }
 END_TEST
 
-
 Suite *test_suite() {
     Suite *s = suite_create("ci.h");
     TCase *tc_ProgLang;
