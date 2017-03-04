@@ -4,6 +4,7 @@
 
 #include <check.h>
 #include <ci.h>
+#include <assert.h>
 
 START_TEST (stringToList_string_headOfList);
 {
@@ -15,6 +16,13 @@ START_TEST (stringToList_string_headOfList);
 }
 END_TEST
 
+START_TEST (qwe);
+{
+    int i = 3;
+    ck_assert_int_eq(i, 0);
+}
+END_TEST
+
 Suite *test_suite() {
     Suite *s = suite_create("ci.h");
     TCase *tc_ProgLang;
@@ -23,7 +31,7 @@ Suite *test_suite() {
 
     
     tcase_add_test(tc_ProgLang, stringToList_string_headOfList);
-
+    tcase_add_test(tc_ProgLang, qwe);
     suite_add_tcase(s, tc_ProgLang);
 
     return s;
