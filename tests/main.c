@@ -60,6 +60,50 @@ START_TEST(listToCSV_list_string)
 }
 END_TEST
 
+
+START_TEST(setList_teacher_teachetGetList) 
+{
+    Teacher * self = Teacher_new("Valentina", "Mathemetics");
+    char str[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
+    List * list = CI_CSVToList(str);
+    CI_Teacher_setList(self, list);
+    List * listTeacher = Teacher_getList(self);
+    ck_assert_ptr_eq(list, listTeacher);
+    List_clear(list);
+    Teacher_free(&self);
+}
+END_TEST
+
+START_TEST(getListOfMinScore_twoTeachersAndN_ListNStudents)
+{
+    char firstStr[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
+    char secondStr[] = "Ann, Kilich, 20, 4.7\nPetro, Spivak, 21, 3.9";
+    List * firstList = CI_CSVToList(firstStr);
+    List * secondList = CI_CSVToList(secondStr);
+    Teacher * firstTeacher = Teacher_new("Vasya", "Math");
+    Teacher * secondTeacher = Teacher_new("Petya", "Chemistry");
+    CI_Teacher_setList(firstTeacher, firstList);
+    CI_Teacher_setList(secondTeacher, secondList);
+    List * listMinScore = CI_getListOfMinScore(firstTeacher, secondTeacher, 3);
+    int countNode = 3;
+
+    ck_assert_int_eq(List_count(listMinScore), countNode);
+
+    // float minValue = Student_getScore(List_get(List_elementAt(listMinScore, 0)));
+    // float averageValue = Student_getScore(List_get(List_elementAt(listMinScore, 1)));
+    // float maxValue = Student_getScore(List_get(List_elementAt(listMinScore, 2)));
+    
+    // ck_assert_float_eq(minValue, 3.7);
+    // ck_assert_float_eq(averageValue, 3.9);
+    // ck_assert_float_eq(maxValue, 4.1);
+    
+    List_clear(firstList);
+    List_clear(secondList);
+    Teacher_free(&firstTeacher);
+    Teacher_free(&secondTeacher);
+}
+END_TEST
+
 Suite *test_suite() {
     Suite *s = suite_create("ci.h");
     TCase *tc_CI;
@@ -68,6 +112,8 @@ Suite *test_suite() {
     tcase_add_test(tc_CI, CSVToList_string_headOfList);
     tcase_add_test(tc_CI, CSVToList_string_EmptyList);
     tcase_add_test(tc_CI, listToCSV_list_string);
+    tcase_add_test(tc_CI, setList_teacher_teachetGetList);
+    tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
 
     suite_add_tcase(s, tc_CI);
     return s;

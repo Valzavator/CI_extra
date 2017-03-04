@@ -94,7 +94,7 @@ void CI_Teacher_setList(Teacher * self, List * head) {
     self->students = head;
 }
 
-List * CI_minScoreFromTwoTeachers(Teacher * first, Teacher * second, int N) {
+List * CI_getListOfMinScore(Teacher * first, Teacher * second, int N) {
     List * list = List_new();
     List * firstList = List_copy(Teacher_getList(first));
     List * secondList = List_copy(Teacher_getList(second));

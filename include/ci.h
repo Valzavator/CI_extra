@@ -13,7 +13,7 @@ bool isValid(char buffer[][30]);
 List * CI_CSVToList(const char * str);
 char * CI_listToCSV(List * list);
 void CI_Teacher_setList(Teacher * self, List * head);
-List * CI_minScoreFromTwoTeachers(Teacher * first, Teacher * second, int N);
+List * CI_getListOfMinScore(Teacher * first, Teacher * second, int N);
 
 Student * Student_newFromString(char str[][30]);
 Student * Student_copy(Student * toCopy);
