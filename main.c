@@ -6,11 +6,11 @@
 
 START_TEST (stringToList_string_headOfList);
 {
-    char str[3][100] = {"qwe, asda,18, 2.3", "zxc, ppkm, 20, 4.3", "xzz, zxczx, 23, 5"};
-    List * list = CI_stringToList(str, 10);
-    int countNode = 3;
+    char str[] = "qwe, asda,18, 2.3\nzxc, ppkm, 20, 4.3";
+    List * list = CI_stringToList(str);
+    int countNode = 2;
     ck_assert_int_eq(List_count(list), countNode);
-    List_clear(list);
+
 }
 END_TEST
 

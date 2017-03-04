@@ -4,10 +4,10 @@
 
 
 int main(void) {
-    char str1[][100] = { "first, qwe,18, 2.3", "second, qwe, 20, 4.3" ,"third, qwe, 22, 3.3"};
-    char str2[][100] = {"FIRST, qwe,18, 1.1", "SECOND, qwe, 20, 3.1", " THIRD, qwe, 22, 2.1"};
-    List * list1 = CI_stringToList(str1, 3);
-    List * list2 = CI_stringToList(str2, 3);
+    char str1[] = "first, qwe,18, 2.3\nsecond, qwe, 20, 4.3\n third, qwe, 22, 3.3";
+    char str2[] = "FIRST, qwe,18, 1.1\nSECOND, qwe, 20, 3.1\n THIRD, qwe, 22, 2.1";
+    List * list1 = CI_stringToList(str1);
+    List * list2 = CI_stringToList(str2);
     Teacher * first = Teacher_new("Vasya");
     Teacher * second = Teacher_new("Petya");
     CI_Teacher_setList(first, list1);
@@ -17,7 +17,6 @@ int main(void) {
     List_print(list2);
     puts("");    
     List * new = CI_minScoreFromTwoTeachers(first, second, 10);
-    List_print(new);
     List_clear(list1);
     List_clear(list2);
     List_clear(new);    
@@ -25,4 +24,3 @@ int main(void) {
     Teacher_free(&second);
     return EXIT_SUCCESS;
 }
-

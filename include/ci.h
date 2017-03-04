@@ -8,8 +8,8 @@ typedef struct Student Student;
 typedef struct ListNode ListNode;
 typedef struct List List;
 
-List * CI_stringToList(char str[][100], int size);
-char ** CI_listToString(List * list, char * buffer[]);
+List * CI_stringToList(const char * str);
+char * CI_listToString(List * list, char * buffer);
 void CI_Teacher_setList(Teacher * self, List * head);
 List * CI_minScoreFromTwoTeachers(Teacher * first, Teacher * second, int N);
 
