@@ -1,4 +1,12 @@
-// Поместите параметры в этот файл, чтобы перезаписать параметры по умолчанию и пользовательские параметры.
+// Place your settings in this file to overwrite default and user settings.
 {
-    "clang.cflags": ["-I./include", "-I../include", "-I../../include", "-I./", "-std=c11", "-Wall", "-Werror"]
+	"clang.cflags": [
+		"-I./include",
+		"-I./../include",
+		"-c",
+		"-std=c11",
+		"-Werror",
+		"-Wall",
+		"-fms-extensions"
+	]
 }
