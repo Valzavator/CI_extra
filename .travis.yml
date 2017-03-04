@@ -9,3 +9,10 @@ before_install:
 - sudo apt-get install -y check
 
 script: make
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+env:
+  global:
+    - CODECOV_TOKEN=:cc3cfe58-0dbf-438d-a7d0-cb5c802d0551
