@@ -15,3 +15,4 @@ after_success:
   - ./main
   - gcov main.c
   - bash <(curl -s https://codecov.io/bash)
+  - echo program compiled successfully

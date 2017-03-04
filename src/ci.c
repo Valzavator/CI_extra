@@ -19,14 +19,7 @@ struct Student {
     float score;
 };
 
-struct ListNode {
-    void * data;
-    ListNode * next;
-};
 
-struct List {
-    ListNode * head;
-};
 
 List * CI_stringToList(const char * str) {
     int i = 0;
@@ -84,7 +77,7 @@ List * CI_minScoreFromTwoTeachers(Teacher * first, Teacher * second, int N) {
     int count = 0;
     int index = 1;
     int limits = List_count(firstList) + List_count(secondList);
-    while ((firstList->head != NULL || secondList != NULL) && count < N && List_count(list) != limits) {
+    while (count < N && List_count(list) != limits) {
         if (N > 1) {
             ListNode * minFirst = List_minScore(firstList);
             ListNode * minSecond = List_minScore(secondList);
@@ -104,34 +97,6 @@ List * CI_minScoreFromTwoTeachers(Teacher * first, Teacher * second, int N) {
     List_clear(firstList);
     List_clear(secondList);
     return list;
-}
-
-void List_removeNode(List * self, ListNode * toRemove) {
-    assert(self->head != NULL);
-    ListNode * cur = self->head;
-    if (Student_getScore(cur->data) == Student_getScore(toRemove->data)) {
-        List_removeFirst(self);
-        return;
-    }
-    while (cur->next->next != NULL && Student_getScore(cur->data) == Student_getScore(toRemove->data)) {
-        cur = cur->next;
-    }
-    ListNode * node = cur->next;
-    cur->next = node->next;
-    ListNode_free(&toRemove);
-}
-
-ListNode * List_minScore(List * self) {
-    assert(self->head != NULL);
-    ListNode * cur = self->head;
-    ListNode * min = self->head;
-    while (cur != NULL) {
-        if (Student_getScore(cur->data) < Student_getScore(min->data)) {
-            min = cur;
-        }
-        cur = cur->next;
-    }
-    return min;
 }
 
 Student * Student_newFromString(char str[4][30]) {
@@ -179,15 +144,6 @@ float Student_getScore(Student * self) {
     return self->score;
 }
 
-void Student_freeAll(List * self) {
-    if (self->head == NULL) throw("NULL reference");
-    int i = 0;
-    for (i = 0; i < List_count(self); i++) {
-        void * cur = List_get(List_elementAt(self, i));
-        Student_free(&cur);
-    }
-}
-
 Teacher * Teacher_new(const char * surname) {
     Teacher * self = (Teacher *) malloc(sizeof(Teacher));
     strcpy(self->surname, surname);
@@ -205,161 +161,3 @@ List * Teacher_getList(Teacher * self) {
     return self->students;
 }
 
-List * List_new(void) {
-    struct List * list = (struct List *)malloc(sizeof(struct List));
-    list->head = NULL;
-    return list;
-}
-
-void List_free(List ** self) {
-    assert(NULL != self);
-    free(*self);
-    *self = NULL;
-}
-
-struct ListNode * ListNode_new(void * data) {
-    struct ListNode * node = (struct ListNode *) malloc(sizeof(struct ListNode));
-    node->next = NULL;
-    node->data = data;
-    return node;
-}
-
-void ListNode_free(ListNode ** self) {
-    assert(NULL != self);
-    Student_free(&(*self)->data);
-    free(*self);
-    *self = NULL;
-}
-
-void List_addFirst(List * self, void * data) {    
-    struct ListNode * node = ListNode_new(data);    
-    node->next = self->head;
-    self->head = node;    
-}
-
-void List_addLast(List * self, void * data) {
-    struct ListNode * node = ListNode_new(data); 
-    if (self->head == NULL) {        
-          self->head = node;          
-          return;
-    }   
-    struct ListNode * cur = self->head;
-    while (cur->next != NULL) {
-          cur = cur->next;
-    }
-    cur->next = node;
-}
-
-int List_insert(List * self, int position, void * data) {
-    assert(position >= 0);
-    if (position == 0) {
-            List_addFirst(self, data);
-          return 0;
-    }
-    struct ListNode * node = ListNode_new(data);
-    int i = 0;
-    struct ListNode * cur = self->head;
-    while (cur->next != NULL && i != position - 1) {
-          cur = cur->next;
-        i++;
-    }
-    if (i != position - 1) return 1;
-    node->next = cur->next;
-    cur->next = node;
-    return 0;
-}
-
-void List_removeFirst(struct List * self) {
-    struct ListNode * node = self->head;
-    if (node == NULL) throw("NULL reference");
-    self->head = node->next;
-    ListNode_free(&node);
-}
-
-
-void List_removeLast(List * self) {
-    struct ListNode * cur = self->head;
-    if (cur == NULL) throw("NULL reference");
-    if (cur->next == NULL) {
-          ListNode_free(&cur);
-          self->head = NULL;
-    }
-    while (cur->next->next != NULL) {
-          cur = cur->next;
-    }
-    ListNode_free(&(cur->next));
-    cur->next = NULL;
-}
-
-void List_removeAt(List * self, int index) {
-    assert(index >= 0);
-    assert(index < List_count(self));
-    if (index == 0) {
-        List_removeFirst(self);
-        return;
-    }
-    int i = 0;
-    struct ListNode * cur = self->head;
-    while (cur->next->next != NULL && i != index - 1) {
-        i += 1;
-        cur = cur->next;
-    }
-    if (i != index - 1) throw("Index out of bounds");
-    struct ListNode * node = cur->next;
-    cur->next = node->next;
-    ListNode_free(&node);
-}
-
-int List_count(struct List * self) {
-    int count = 0;
-    struct ListNode * cur = self->head;
-    while (cur != NULL) {
-          count += 1;
-          cur = cur->next;
-    }
-    return count;
-}
-
-struct ListNode * List_elementAt(List * self, int position) {
-    assert(position >= 0);
-    if (self->head == NULL) throw("list->head = NULL");
-    struct ListNode * cur = self->head;
-    int count = 0;
-    while (cur != NULL && count != position) {
-          cur = cur->next;
-          count++;
-    }
-    return cur;
-}
-
-List * List_copy(List * toCopy) {
-    char buffer[200];
-    List * newList = CI_stringToList(CI_listToString(toCopy, buffer));
-    return newList;
-}
-
-void * List_get(ListNode * self) {
-    return self->data;
-}
-
-void List_clear(List * self) {
-    struct ListNode * cur = self->head;
-    while (cur != NULL) {
-        struct ListNode * node = cur;
-        cur = cur->next; 
-        ListNode_free(&node);
-    }
-    List_free(&self);
-}
-
-void List_print(List * self) {
-    ListNode * cur = self->head;
-    while(cur != NULL) {
-        const char * name = Student_getName(cur->data);
-        const char * surname = Student_getSurname(cur->data);
-        int age = Student_getAge(cur->data);
-        float score = Student_getScore(cur->data);
-        printf("%s, %s, %i, %.2f\n", name, surname, age, score);
-        cur = cur->next;
-    }
-}
