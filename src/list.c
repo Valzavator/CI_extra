@@ -143,8 +143,9 @@ struct ListNode * List_elementAt(List * self, int position) {
 }
 
 List * List_copy(List * toCopy) {
-    char buffer[200];
-    List * newList = CI_stringToList(CI_listToString(toCopy, buffer));
+    char * string = CI_listToCSV(toCopy);
+    List * newList = CI_CSVToList(string);
+    free(string);
     return newList;
 }
 

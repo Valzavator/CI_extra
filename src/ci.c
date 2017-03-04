@@ -4,12 +4,14 @@
 #include <string.h>
 #include <ctype.h>
 #include <ci.h>
+#include <stdbool.h>
 
 #define throw(MSG) assert(0 && MSG);
 
 struct Teacher {
     char surname[20];
     List * students;
+    char subject[20];
 };
 
 struct Student {
@@ -20,20 +22,36 @@ struct Student {
 };
 
 
+bool isValid(char buffer[][30]) {
+    if (strlen(buffer[0]) == 0 || 
+        strlen(buffer[1]) == 0 || 
+        strlen(buffer[2]) == 0 || 
+        strlen(buffer[3]) == 0) return false; 
+    if (strlen(buffer[2]) != 0) {
+        if(atoi(buffer[2]) == 0) return false;
+    } 
+    if (strlen(buffer[3]) != 0) {
+        if(atof(buffer[3]) < 0.1) return false;
+    }
+    return true;
+}
 
-List * CI_stringToList(const char * str) {
+List * CI_CSVToList(const char * str) {
     int i = 0;
     List * list = List_new();
-    char buffer[5][30];
+    char buffer[10][30] = {"\0", "\0", "\0","\0"};
     int row = 0, col = 0;
+    if (strlen(str) == 0) return list;
     for (i = 0; i <= strlen(str); i++) {
-        char ch = str[i];        
-        if ((ch == '\n' || ch == '\0') && strlen(buffer[3]) != 0) {
+        char ch = str[i];     
+        if ((ch == '\n' || ch == '\0') && isValid(buffer) == true) {
             List_addLast(list, Student_newFromString(buffer));
-            buffer[3][0] = '\0';
             row = 0;
             continue;
-        }
+        } 
+        if (ch == '\n') {
+            row = 0; continue;
+        } 
         if (ch == ',') {
             row++;
             continue;
@@ -54,16 +72,22 @@ List * CI_stringToList(const char * str) {
 }
 
 
-char * CI_listToString(List * list, char * buffer) {
+char * CI_listToCSV(List * list) {
     char str[100];
-    buffer[0] = '\0';
     int i = 0;
+    int len = 5;
+    for (i = 0; i < List_count(list); i++) {
+        len += strlen(Student_toString(List_get(List_elementAt(list, i)), str));
+    }
+    char * stringCSV = (char *) malloc(sizeof(char) * len);
+    stringCSV[0] = '\0';
     for (i = 0; i < List_count(list); i++) {
         Student_toString(List_get(List_elementAt(list, i)), str);
-        strcat(buffer, str);
-        strcat(buffer, "\n");
+        strcat(stringCSV, str);
+        strcat(stringCSV, "\n");
     }
-    return buffer; 
+    stringCSV[strlen(stringCSV) - 1] = '\0';
+    return stringCSV; 
 }
 
 void CI_Teacher_setList(Teacher * self, List * head) {
@@ -124,7 +148,7 @@ void Student_free(void ** self) {
 }
 
 char * Student_toString(Student * self, char * buffer) {
-    sprintf(buffer, "%s, %s, %i, %.2f%c", self->name, self->surname, self->age, self->score, '\0');
+    sprintf(buffer, "%s, %s, %i, %.1f%c", self->name, self->surname, self->age, self->score, '\0');
     return(buffer);
 }
 
@@ -144,9 +168,10 @@ float Student_getScore(Student * self) {
     return self->score;
 }
 
-Teacher * Teacher_new(const char * surname) {
+Teacher * Teacher_new(const char * surname, const char * subject) {
     Teacher * self = (Teacher *) malloc(sizeof(Teacher));
     strcpy(self->surname, surname);
+    strcpy(self->subject, subject);
     self->students = NULL;
     return self;
 }

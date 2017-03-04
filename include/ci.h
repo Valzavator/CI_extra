@@ -3,13 +3,15 @@
 
 #include <stdio.h>
 #include "list.h"
+#include <stdbool.h>
 
 typedef struct Teacher Teacher;
 typedef struct Student Student;
 
+bool isValid(char buffer[][30]);
 
-List * CI_stringToList(const char * str);
-char * CI_listToString(List * list, char * buffer);
+List * CI_CSVToList(const char * str);
+char * CI_listToCSV(List * list);
 void CI_Teacher_setList(Teacher * self, List * head);
 List * CI_minScoreFromTwoTeachers(Teacher * first, Teacher * second, int N);
 
@@ -24,9 +26,10 @@ const char * Student_getSurname(Student * self);
 int Student_getAge(Student * self);
 float Student_getScore(Student * self);
 
-Teacher * Teacher_new(const char * surname);
+Teacher * Teacher_new(const char * surname, const char * subject);
 void Teacher_free(Teacher ** self);
 
 List * Teacher_getList(Teacher * self);
+
 
 #endif
