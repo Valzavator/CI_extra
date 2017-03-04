@@ -11,8 +11,7 @@ before_install:
 script: make
 
 after_success:
+  - gcc -coverage -O0 main.c -o main -I./include -lcheck src/*.c
+  - ./main
+  - gcov main.c
   - bash <(curl -s https://codecov.io/bash)
-
-env:
-  global:
-    - CODECOV_TOKEN=:cc3cfe58-0dbf-438d-a7d0-cb5c802d0551

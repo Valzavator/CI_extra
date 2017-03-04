@@ -32,7 +32,6 @@ Suite *test_suite() {
     
     tcase_add_test(tc_ProgLang, stringToList_string_headOfList);
     tcase_add_test(tc_ProgLang, qwe);
-    suite_add_tcase(s, tc_ProgLang);
 
     return s;
 }
