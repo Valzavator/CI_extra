@@ -11,8 +11,8 @@ before_install:
 script: make
 
 after_success:
-  - gcc -coverage -O0 main.c -o main -I./include -lcheck src/*.c
-  - ./main
-  - gcov main.c
+  - gcc -coverage -O0 src/tests/tests.c -o tests src/*.c -I./include -lcheck 
+  - ./tests
+  - gcov tests.c list.c ci.c
   - bash <(curl -s https://codecov.io/bash)
   - echo program compiled successfully
