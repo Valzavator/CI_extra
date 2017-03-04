@@ -54,11 +54,6 @@ START_TEST(listToCSV_list_string)
     List * list = CI_CSVToList(str);
     char * stringCSV = CI_listToCSV(list);
     char correctString[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
-    int a = strlen(stringCSV), b = strlen(correctString);
-    puts("");
-    puts(stringCSV);
-    puts(correctString);
-    ck_assert_int_eq(a,b);
     ck_assert_str_eq(stringCSV, correctString);
     List_clear(list);
     free(stringCSV);
