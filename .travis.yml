@@ -12,10 +12,11 @@ install:
   - tar -xzvf check-0.11.0.tar.gz
   - pushd check-0.11.0 && ./configure --prefix=/usr && make && sudo make install && popd
 
+before_script:  
+- cmake .
+
 script: 
-  - cmake .
-  - make
-  - make test
+  - ./a.out
   - lcov --directory . --capture --output-file coverage.info
 
 after_success:
