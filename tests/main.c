@@ -223,7 +223,10 @@ START_TEST(removeLast_list_removeLastNode)
     ck_assert_int_eq(List_count(head), 3);
     List_removeLast(head);
     ck_assert_int_eq(List_count(head), 2);
-    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 1))), *two);    
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 1))), *two); 
+    List_removeLast(head);
+    List_removeLast(head);   
+    ck_assert_int_eq(List_count(head), 0);
     List_clear(head);
 }
 END_TEST
@@ -234,16 +237,22 @@ START_TEST(removeAt_list_removeNodeAtPosition)
     int * one = malloc(sizeof(int));
     int * two = malloc(sizeof(int));
     int * three = malloc(sizeof(int));
+    int * four= malloc(sizeof(int));
     *one = 1;
     *two = 2;
-    * three = 3;
+    *three = 3;
+    *four = 3;
+    List_addFirst(head, four);
     List_addFirst(head, three);
     List_addFirst(head, two);
     List_addFirst(head, one);
+    ck_assert_int_eq(List_count(head), 4);
+    List_removeAt(head, 2);
     ck_assert_int_eq(List_count(head), 3);
-    List_removeAt(head, 1);
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 2))), *three);    
+    List_removeAt(head, 0);
     ck_assert_int_eq(List_count(head), 2);
-    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 1))), *three);    
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 0))), *two);    
     List_clear(head);
 }
 END_TEST
