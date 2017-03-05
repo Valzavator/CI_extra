@@ -191,11 +191,19 @@ END_TEST
 START_TEST(insert_listANDpositionANDdata_addNodeToPosition) 
 {
     List * head = List_new();
-    int * data = malloc(sizeof(int));
-    *data = 1;
-    ck_assert_int_eq(List_count(head), 0);
-    List_addFirst(head, data);
-    ck_assert_int_eq(List_count(head), 1);
+    int * one = malloc(sizeof(int));
+    int * two = malloc(sizeof(int));
+    int * three = malloc(sizeof(int));
+    *one = 1;
+    *two = 2;
+    * three = 3;
+    List_addFirst(head, one);
+    List_insert(head, 0, two); 
+    ck_assert_int_eq(List_count(head), 2);
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 0))), *two);
+    List_insert(head, 2, three); 
+    ck_assert_int_eq(List_count(head), 3);
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 2))), *three);
     List_clear(head);
 }
 END_TEST
