@@ -21,14 +21,15 @@ void List_removeAt(List * self, int position);
 void List_removeNode(List * self, ListNode * toRemove);
 ListNode * List_elementAt(List * self, int position);
 
-void * List_get(ListNode * self);
 int List_count(List * self);
 List * List_copy(List * toCopy);
 
 ListNode * List_minScore(List * self);
+List * List_merge(List * firstList, List * secondList);
+
+void * List_get(ListNode * self);
 
 void List_clear(List * self);
-
 void List_print(List * self);
 
 #endif

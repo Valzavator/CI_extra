@@ -1,19 +1,15 @@
-#ifndef CI_H
-#define CI_H
+#ifndef STUDENTS_H
+#define STUDENTS_H
 
 #include <stdio.h>
-#include "list.h"
 #include <stdbool.h>
+#include "list.h"
 
 typedef struct Teacher Teacher;
 typedef struct Student Student;
 
-bool isValid(char buffer[][30]);
-
-List * CI_CSVToList(const char * str);
-char * CI_listToCSV(List * list);
-void CI_Teacher_setList(Teacher * self, List * head);
-List * CI_getListOfMinScore(Teacher * first, Teacher * second, int N);
+void Teacher_setList(Teacher * self, List * head);
+List * Teacher_getListOfMinScore(Teacher * first, Teacher * second, int N);
 
 Student * Student_newFromString(char str[][30]);
 Student * Student_copy(Student * toCopy);
