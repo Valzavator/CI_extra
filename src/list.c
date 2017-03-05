@@ -201,15 +201,3 @@ void List_clear(List * self) {
     }
     List_free(&self);
 }
-
-void List_print(List * self) {
-    ListNode * cur = self->head;
-    while(cur != NULL) {
-        const char * name = Student_getName(cur->data);
-        const char * surname = Student_getSurname(cur->data);
-        int age = Student_getAge(cur->data);
-        float score = Student_getScore(cur->data);
-        printf("%s, %s, %i, %.2f\n", name, surname, age, score);
-        cur = cur->next;
-    }
-}
