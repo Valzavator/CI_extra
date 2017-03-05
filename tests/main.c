@@ -82,8 +82,8 @@ START_TEST(setList_teacher_teachetGetList)
     char str[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
     List * list = CSV_toList(str);
     Teacher_setList(self, list);
-    // List * listTeacher = Teacher_getList(self);
-    // ck_assert_ptr_eq(list, listTeacher);
+    List * listTeacher = Teacher_getList(self);
+    ck_assert_ptr_eq(list, listTeacher);
     List_clear(list);
     Teacher_free(&self);
 }
@@ -104,13 +104,13 @@ START_TEST(getListOfMinScore_twoTeachersAndN_ListNStudents)
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
 
-    // float minValue = Student_getScore(List_get(List_elementAt(listMinScore, 0)));
-    // float averageValue = Student_getScore(List_get(List_elementAt(listMinScore, 1)));
-    // float maxValue = Student_getScore(List_get(List_elementAt(listMinScore, 2)));
+    float minValue = Student_getScore(List_get(List_elementAt(listMinScore, 0)));
+    float averageValue = Student_getScore(List_get(List_elementAt(listMinScore, 1)));
+    float maxValue = Student_getScore(List_get(List_elementAt(listMinScore, 2)));
     
-    // ck_assert_float_eq(minValue, 3.7);
-    // ck_assert_float_eq(averageValue, 3.9);
-    // ck_assert_float_eq(maxValue, 4.1);
+    ck_assert_float_eq(minValue, 3.7);
+    ck_assert_float_eq(averageValue, 3.9);
+    ck_assert_float_eq(maxValue, 4.1);
 
     List_clear(listMinScore);
     List_clear(firstList);
