@@ -6,12 +6,12 @@ os:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y lcov
-  - wget https://github.com/libcheck/check/releases/download/0.11.0/check-0.11.0.tar.gz
-  - tar -xzvf check-0.11.0.tar.gz
-  - cd check-0.11.0 && ./configure --prefix=/usr && make && sudo make install
 
 before_script:  
-- cmake .
+  - wget https://github.com/libcheck/check/releases/download/0.11.0/check-0.11.0.tar.gz
+  - tar -xvf /tmp/check-0.11.0.tar.gz
+  - export PATH=$PATH:$PWD/check-0.11.0/bin/
+  - cmake .
 
 script: 
   - make
