@@ -222,6 +222,8 @@ Suite *test_suite() {
     tcase_add_test(tc_list, free_list_freeMemory);
     
     suite_add_tcase(s, tc_CI);
+    suite_add_tcase(s, tc_list);
+    
     return s;
 }
 
