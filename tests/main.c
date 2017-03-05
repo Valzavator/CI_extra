@@ -249,7 +249,7 @@ START_TEST(removeAt_list_removeNodeAtPosition)
     ck_assert_int_eq(List_count(head), 4);
     List_removeAt(head, 2);
     ck_assert_int_eq(List_count(head), 3);
-    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 2))), *three);    
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 2))), *four);    
     List_removeAt(head, 0);
     ck_assert_int_eq(List_count(head), 2);
     ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 0))), *two);    
@@ -276,8 +276,8 @@ Suite *test_suite() {
     tcase_add_test(tc_list, addFirst_listANDdata_addNodeToHead);
     tcase_add_test(tc_list, insert_listANDpositionANDdata_addNodeToPosition);
     tcase_add_test(tc_list, free_list_freeMemory);
-    tcase_add_test(tc_list, removeLast_list_removeLastNode);
     tcase_add_test(tc_list, removeAt_list_removeNodeAtPosition);
+    tcase_add_test(tc_list, removeLast_list_removeLastNode);
 
     suite_add_tcase(s, tc_CI);
     suite_add_tcase(s, tc_list);

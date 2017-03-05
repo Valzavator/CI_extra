@@ -95,6 +95,7 @@ void List_removeLast(List * self) {
     if (cur->next == NULL) {
           ListNode_free(&cur);
           self->head = NULL;
+          return;
     }
     while (cur->next->next != NULL) {
           cur = cur->next;
