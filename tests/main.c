@@ -213,15 +213,17 @@ START_TEST(removeLast_list_removeLastNode)
     List * head = List_new();
     int * one = malloc(sizeof(int));
     int * two = malloc(sizeof(int));
+    int * three = malloc(sizeof(int));
     *one = 1;
     *two = 2;
+    * three = 3;
+    List_addFirst(head, three);
     List_addFirst(head, two);
-    List_addFirst(head, one);
     List_addFirst(head, one);
     ck_assert_int_eq(List_count(head), 3);
     List_removeLast(head);
     ck_assert_int_eq(List_count(head), 2);
-    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, List_count(head) - 1))), *one);
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 1))), *two);    
     List_clear(head);
 }
 END_TEST
