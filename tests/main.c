@@ -121,7 +121,9 @@ START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
     int countNode = 0;
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
-
+    ck_assert_float_eq(2.2, 5.2);
+    ck_assert_int_eq(2, 5);
+    
     List_clear(listMinScore);
     List_clear(firstList);
     List_clear(secondList);
