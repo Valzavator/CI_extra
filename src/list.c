@@ -180,13 +180,9 @@ ListNode * List_minScore(List * self) {
 }
 
 List * List_merge(List * firstList, List * secondList) {
-    puts("=========]");
-    
-    printf("%i========%i", List_count(firstList), List_count(secondList));
-    if (firstList->head == NULL && secondList->head == NULL) return NULL;
-    if (firstList->head == NULL) return secondList;    
+    if (firstList->head == NULL && secondList->head == NULL) return List_new();
+    if (firstList->head == NULL) return secondList;
     if (secondList->head == NULL) return firstList;
-    
     List * begin = List_copy(firstList);
     List * end = List_copy(secondList);
     ListNode * node = List_elementAt(begin, List_count(begin) - 1);

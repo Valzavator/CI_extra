@@ -118,8 +118,6 @@ START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
     Teacher_setList(firstTeacher, firstList);
     Teacher_setList(secondTeacher, secondList);
     List * listMinScore = Teacher_getListOfMinScore(firstTeacher, secondTeacher, 3);
-    puts("===============");
-
     int countNode = 0;
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
@@ -132,19 +130,6 @@ START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
 }
 END_TEST
 
-START_TEST(aNULL)
-{
-    char firstStr[] = "q";
-    char secondStr[] = "q";
-    List * firstList = CSV_toList(firstStr);
-    List * secondList = CSV_toList(secondStr);
-    List * merge = List_merge(firstList, secondList);
-    ck_assert_int_eq(List_count(merge), 1);
-    List_clear(firstList);
-    List_clear(secondList);
-}
-END_TEST
-
 Suite *test_suite() {
     Suite *s = suite_create("CI_extra");
     TCase *tc_CI;
@@ -154,9 +139,8 @@ Suite *test_suite() {
     tcase_add_test(tc_CI, CSVToList_string_EmptyList);
     tcase_add_test(tc_CI, listToCSV_list_string);
     tcase_add_test(tc_CI, setList_teacher_teachetGetList);
-    // tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
-    // tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_NULL);
-    tcase_add_test(tc_CI, aNULL);
+    tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
+    tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_NULL);
 
     suite_add_tcase(s, tc_CI);
     return s;
