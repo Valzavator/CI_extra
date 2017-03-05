@@ -2,6 +2,7 @@
 #define CSV_H
 
 #include "list.h"
+#include <stdbool.h>
 
 List * CSV_toList(const char * str);
 char * CSV_fromList(List * list);
