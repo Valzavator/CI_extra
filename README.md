@@ -2,7 +2,7 @@
 [![codecov](https://codecov.io/gh/Valzavator/CI_extra/branch/master/graph/badge.svg)](https://codecov.io/gh/Valzavator/CI_extra)
 # CI_extra
 
-# Функції:
+### Функції:
 1. Формування списку студентів із CSV строки(сsv.c)
 2. Формування CSV строки із списку студентів(csv.c)
 3. Прикріплення списку студентів до викладача(students.c)
