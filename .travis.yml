@@ -6,7 +6,6 @@ os:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y lcov
-  - sudo apt-get install -y check
   
 install:
   - wget https://github.com/libcheck/check/releases/download/0.11.0/check-0.11.0.tar.gz

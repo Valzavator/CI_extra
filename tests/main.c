@@ -6,6 +6,11 @@
 #include <students.h>
 #include <list.h>
 
+
+///////////////////////////////////////////////
+//       tests for functions of task         //
+//////////////////////////////////////////////
+
 START_TEST (CSVToList_string_headOfList);
 {
     char str[] = "Vasya, Petrenko,19, 4.1\nPaul, Kozlov, 20, 3.7";
@@ -39,9 +44,10 @@ END_TEST
 
 START_TEST(CSVToList_string_EmptyList)
 {
-    char firstString[] = "";
+    char firstString[] = ",,,";
     char secondString[] = "Igor, Teterev";
     char thirdString[] = "\n";    
+    char fourthStrung[] = "Max, Klimko, one, two\nIgor, Teterev,,\n";
     List * list = CSV_toList(firstString);
     ck_assert_int_eq(List_count(list), 0);
     List_clear(list);
@@ -49,6 +55,8 @@ START_TEST(CSVToList_string_EmptyList)
     ck_assert_int_eq(List_count(list), 0);
     list = CSV_toList(thirdString);
     ck_assert_int_eq(List_count(list), 0);    
+    list = CSV_toList(fourthStrung);
+    ck_assert_int_eq(List_count(list), 0);   
     List_clear(list);    
 }
 END_TEST
@@ -143,20 +151,76 @@ START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
 }
 END_TEST
 
+///////////////////////////////////////////////
+//          tests for list.h                 //
+//////////////////////////////////////////////
+
+START_TEST(new_void_headOfList) 
+{
+    List * head = List_new();
+    ck_assert_ptr_ne(head, NULL);
+    List_free(&head);
+}
+END_TEST
+
+START_TEST(free_list_freeMemory) 
+{
+    List * head = List_new();
+    ck_assert_ptr_ne(head, NULL);
+    List_free(&head);
+    ck_assert_ptr_eq(head, NULL);    
+}
+END_TEST
+
+START_TEST(addFirst_listANDdata_addNodeToHead) 
+{
+    List * head = List_new();
+    int * one = malloc(sizeof(int));
+    int * two = malloc(sizeof(int));
+    *one = 1;
+    *two = 2;
+    ck_assert_int_eq(List_count(head), 0);
+    List_addFirst(head, one);
+    ck_assert_int_eq(List_count(head), 1);
+    List_addFirst(head, two);
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, 0))), *two);
+    List_clear(head);
+}
+END_TEST
+
+START_TEST(insert_listANDpositionANDdata_addNodeToPosition) 
+{
+    List * head = List_new();
+    int * data = malloc(sizeof(int));
+    *data = 1;
+    ck_assert_int_eq(List_count(head), 0);
+    List_addFirst(head, data);
+    ck_assert_int_eq(List_count(head), 1);
+    List_clear(head);
+}
+END_TEST
+
+
 Suite *test_suite() {
     Suite *s = suite_create("CI_extra");
     TCase *tc_CI;
-    tc_CI = tcase_create("TestCase");
+    TCase *tc_list;
+    tc_CI = tcase_create("mainFunction");
+    tc_list = tcase_create("list");
 
     tcase_add_test(tc_CI, CSVToList_string_headOfList);
     tcase_add_test(tc_CI, CSVToList_string_EmptyList);
     tcase_add_test(tc_CI, listToCSV_list_string);
     tcase_add_test(tc_CI, listToCSV_emptyList_emptyString);
-    
     tcase_add_test(tc_CI, setList_teacher_teachetGetList);
     tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
     tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_NULL);
 
+    tcase_add_test(tc_list, new_void_headOfList);
+    tcase_add_test(tc_list, addFirst_listANDdata_addNodeToHead);
+    tcase_add_test(tc_list, insert_listANDpositionANDdata_addNodeToPosition);
+    tcase_add_test(tc_list, free_list_freeMemory);
+    
     suite_add_tcase(s, tc_CI);
     return s;
 }
