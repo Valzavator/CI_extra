@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <check.h>
+
 #include <csv.h>
 #include <students.h>
+#include <list.h>
 
 START_TEST (CSVToList_string_headOfList);
 {
@@ -68,8 +69,8 @@ START_TEST(setList_teacher_teachetGetList)
     char str[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
     List * list = CSV_toList(str);
     Teacher_setList(self, list);
-    // List * listTeacher = Teacher_getList(self);
-    // ck_assert_ptr_eq(list, listTeacher);
+    List * listTeacher = Teacher_getList(self);
+    ck_assert_ptr_eq(list, listTeacher);
     List_clear(list);
     Teacher_free(&self);
 }
@@ -90,13 +91,14 @@ START_TEST(getListOfMinScore_twoTeachersAndN_ListNStudents)
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
 
-    // float minValue = Student_getScore(List_get(List_elementAt(listMinScore, 0)));
-    // float averageValue = Student_getScore(List_get(List_elementAt(listMinScore, 1)));
-    // float maxValue = Student_getScore(List_get(List_elementAt(listMinScore, 2)));
+    float minValue = Student_getScore(List_get(List_elementAt(listMinScore, 0)));
+    float averageValue = Student_getScore(List_get(List_elementAt(listMinScore, 1)));
+    float maxValue = Student_getScore(List_get(List_elementAt(listMinScore, 2)));
     
-    // ck_assert_float_eq(minValue, 3.7);
-    // ck_assert_float_eq(averageValue, 3.9);
-    // ck_assert_float_eq(maxValue, 4.1);
+    ck_assert_float_eq(minValue, 3.7);
+    ck_assert_float_eq(averageValue, 3.9);
+    ck_assert_float_eq(maxValue, 4.1);
+
     List_clear(listMinScore);
     List_clear(firstList);
     List_clear(secondList);
@@ -105,8 +107,46 @@ START_TEST(getListOfMinScore_twoTeachersAndN_ListNStudents)
 }
 END_TEST
 
+START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
+{
+    char firstStr[] = "";
+    char secondStr[] = "";
+    List * firstList = CSV_toList(firstStr);
+    List * secondList = CSV_toList(secondStr);
+    Teacher * firstTeacher = Teacher_new("Vasya", "Math");
+    Teacher * secondTeacher = Teacher_new("Petya", "Chemistry");
+    Teacher_setList(firstTeacher, firstList);
+    Teacher_setList(secondTeacher, secondList);
+    List * listMinScore = Teacher_getListOfMinScore(firstTeacher, secondTeacher, 3);
+    puts("===============");
+
+    int countNode = 0;
+
+    ck_assert_int_eq(List_count(listMinScore), countNode);
+
+    List_clear(listMinScore);
+    List_clear(firstList);
+    List_clear(secondList);
+    Teacher_free(&firstTeacher);
+    Teacher_free(&secondTeacher);
+}
+END_TEST
+
+START_TEST(aNULL)
+{
+    char firstStr[] = "q";
+    char secondStr[] = "q";
+    List * firstList = CSV_toList(firstStr);
+    List * secondList = CSV_toList(secondStr);
+    List * merge = List_merge(firstList, secondList);
+    ck_assert_int_eq(List_count(merge), 1);
+    List_clear(firstList);
+    List_clear(secondList);
+}
+END_TEST
+
 Suite *test_suite() {
-    Suite *s = suite_create("ci.h");
+    Suite *s = suite_create("CI_extra");
     TCase *tc_CI;
     tc_CI = tcase_create("TestCase");
 
@@ -114,7 +154,9 @@ Suite *test_suite() {
     tcase_add_test(tc_CI, CSVToList_string_EmptyList);
     tcase_add_test(tc_CI, listToCSV_list_string);
     tcase_add_test(tc_CI, setList_teacher_teachetGetList);
-    tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
+    // tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
+    // tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_NULL);
+    tcase_add_test(tc_CI, aNULL);
 
     suite_add_tcase(s, tc_CI);
     return s;
