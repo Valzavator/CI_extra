@@ -45,9 +45,9 @@ END_TEST
 START_TEST(CSVToList_string_EmptyList)
 {
     char firstString[] = ",,,";
-    char secondString[] = "Igor, Teterev";
+    char secondString[] = "Igor, Teterev\nIgor, Teterev,,2";
     char thirdString[] = "\n";    
-    char fourthStrung[] = "Max, Klimko, one, two\nIgor, Teterev,,\n";
+    char fourthStrung[] = "Max, Klimko, one, two\nIgor, Teterev, 2,\n";
     List * list = CSV_toList(firstString);
     ck_assert_int_eq(List_count(list), 0);
     List_clear(list);

@@ -21,7 +21,8 @@ List * CSV_toList(const char * str) {
             continue;
         } 
         if (ch == '\n') {
-            row = 0; continue;
+            row = 0;
+            continue;
         } 
         if (ch == ',') {
             row++;
