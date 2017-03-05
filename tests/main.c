@@ -2,12 +2,13 @@
 #include <stdlib.h>
 
 #include <check.h>
-#include <ci.h>
+#include <csv.h>
+#include <students.h>
 
 START_TEST (CSVToList_string_headOfList);
 {
     char str[] = "Vasya, Petrenko,19, 4.1\nPaul, Kozlov, 20, 3.7";
-    List * list = CI_CSVToList(str);
+    List * list = CSV_toList(str);
     int countNode = 2;
     ck_assert_int_eq(List_count(list), countNode);
     
@@ -39,10 +40,10 @@ START_TEST(CSVToList_string_EmptyList)
 {
     char firstString[] = "";
     char secondString[] = "Igor, Teterev";
-    List * list = CI_CSVToList(firstString);
+    List * list = CSV_toList(firstString);
     ck_assert_int_eq(List_count(list), 0);
     List_clear(list);
-    list = CI_CSVToList(secondString);
+    list = CSV_toList(secondString);
     ck_assert_int_eq(List_count(list), 0);
     List_clear(list);    
 }
@@ -51,8 +52,8 @@ END_TEST
 START_TEST(listToCSV_list_string)
 {
     char str[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
-    List * list = CI_CSVToList(str);
-    char * stringCSV = CI_listToCSV(list);
+    List * list = CSV_toList(str);
+    char * stringCSV = CSV_fromList(list);
     char correctString[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
     ck_assert_str_eq(stringCSV, correctString);
     List_clear(list);
@@ -65,8 +66,8 @@ START_TEST(setList_teacher_teachetGetList)
 {
     Teacher * self = Teacher_new("Valentina", "Mathemetics");
     char str[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
-    List * list = CI_CSVToList(str);
-    CI_Teacher_setList(self, list);
+    List * list = CSV_toList(str);
+    Teacher_setList(self, list);
     // List * listTeacher = Teacher_getList(self);
     // ck_assert_ptr_eq(list, listTeacher);
     List_clear(list);
@@ -78,13 +79,13 @@ START_TEST(getListOfMinScore_twoTeachersAndN_ListNStudents)
 {
     char firstStr[] = "Vasya, Petrenko, 19, 4.1\nPaul, Kozlov, 20, 3.7";
     char secondStr[] = "Ann, Kilich, 20, 4.7\nPetro, Spivak, 21, 3.9";
-    List * firstList = CI_CSVToList(firstStr);
-    List * secondList = CI_CSVToList(secondStr);
+    List * firstList = CSV_toList(firstStr);
+    List * secondList = CSV_toList(secondStr);
     Teacher * firstTeacher = Teacher_new("Vasya", "Math");
     Teacher * secondTeacher = Teacher_new("Petya", "Chemistry");
-    CI_Teacher_setList(firstTeacher, firstList);
-    CI_Teacher_setList(secondTeacher, secondList);
-    List * listMinScore = CI_getListOfMinScore(firstTeacher, secondTeacher, 3);
+    Teacher_setList(firstTeacher, firstList);
+    Teacher_setList(secondTeacher, secondList);
+    List * listMinScore = Teacher_getListOfMinScore(firstTeacher, secondTeacher, 3);
     int countNode = 3;
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
