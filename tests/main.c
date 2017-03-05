@@ -208,6 +208,24 @@ START_TEST(insert_listANDpositionANDdata_addNodeToPosition)
 }
 END_TEST
 
+START_TEST(removeLast_list_removeLastNode) 
+{
+    List * head = List_new();
+    int * one = malloc(sizeof(int));
+    int * two = malloc(sizeof(int));
+    *one = 1;
+    *two = 2;
+    List_addFirst(head, two);
+    List_addFirst(head, one);
+    List_addFirst(head, one);
+    ck_assert_int_eq(List_count(head), 3);
+    List_removeLast(head);
+    ck_assert_int_eq(List_count(head), 2);
+    ck_assert_int_eq(*((int *) List_get(List_elementAt(head, List_count(head) - 1))), *one);
+    List_clear(head);
+}
+END_TEST
+
 
 Suite *test_suite() {
     Suite *s = suite_create("CI_extra");
@@ -228,7 +246,8 @@ Suite *test_suite() {
     tcase_add_test(tc_list, addFirst_listANDdata_addNodeToHead);
     tcase_add_test(tc_list, insert_listANDpositionANDdata_addNodeToPosition);
     tcase_add_test(tc_list, free_list_freeMemory);
-    
+    tcase_add_test(tc_list, removeLast_list_removeLastNode);
+
     suite_add_tcase(s, tc_CI);
     suite_add_tcase(s, tc_list);
     
