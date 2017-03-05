@@ -41,11 +41,14 @@ START_TEST(CSVToList_string_EmptyList)
 {
     char firstString[] = "";
     char secondString[] = "Igor, Teterev";
+    char thirdString[] = "\n";    
     List * list = CSV_toList(firstString);
     ck_assert_int_eq(List_count(list), 0);
     List_clear(list);
     list = CSV_toList(secondString);
     ck_assert_int_eq(List_count(list), 0);
+    list = CSV_toList(thirdString);
+    ck_assert_int_eq(List_count(list), 0);    
     List_clear(list);    
 }
 END_TEST
@@ -131,7 +134,6 @@ START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
     int countNode = 0;
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
-    ck_assert_float_eq(2.2, 5.2);
     
     List_clear(listMinScore);
     List_clear(firstList);
