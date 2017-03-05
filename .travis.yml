@@ -17,7 +17,6 @@ before_script:
 
 script: 
   - make
-  - ./a.out
   - lcov --directory . --capture --output-file coverage.info
 
 after_success:

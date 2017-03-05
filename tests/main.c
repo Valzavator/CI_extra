@@ -62,6 +62,16 @@ START_TEST(listToCSV_list_string)
 }
 END_TEST
 
+START_TEST(listToCSV_emptyList_emptyString)
+{
+    List * list = List_new();
+    char * stringCSV = CSV_fromList(list);
+    int length = strlen(stringCSV);
+    ck_assert_int_eq(length, 0);
+    List_clear(list);
+    free(stringCSV);
+}
+END_TEST
 
 START_TEST(setList_teacher_teachetGetList) 
 {
@@ -122,7 +132,6 @@ START_TEST(getListOfMinScore_twoTeachersAndN_NULL)
 
     ck_assert_int_eq(List_count(listMinScore), countNode);
     ck_assert_float_eq(2.2, 5.2);
-    ck_assert_int_eq(2, 5);
     
     List_clear(listMinScore);
     List_clear(firstList);
@@ -140,6 +149,8 @@ Suite *test_suite() {
     tcase_add_test(tc_CI, CSVToList_string_headOfList);
     tcase_add_test(tc_CI, CSVToList_string_EmptyList);
     tcase_add_test(tc_CI, listToCSV_list_string);
+    tcase_add_test(tc_CI, listToCSV_emptyList_emptyString);
+    
     tcase_add_test(tc_CI, setList_teacher_teachetGetList);
     tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_ListNStudents);
     tcase_add_test(tc_CI, getListOfMinScore_twoTeachersAndN_NULL);
