@@ -6,7 +6,7 @@ os:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y lcov
-  - sudo apt-get install -y check
+  - ./install-protobuf.sh
 
 before_script:  
 - cmake .
